@@ -7,7 +7,7 @@ const Home = () => {
     <div className='homeWrapper'>
         <h1>Your favorite food, delivered while coding</h1>
         <div className='pizzaBox'>
-            <Link className='form' to='./Form.js'>
+            <Link className='pizza' to='/components/Pizza'>
                 Pizza?
             </Link>
         </div>

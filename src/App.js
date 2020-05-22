@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
 import Home from './components/Home';
-import Form from './components/Form';
+import Pizza from './components/Pizza';
 
 const App = () => {
   return (
@@ -13,11 +13,10 @@ const App = () => {
       <Route exact path ='/'>
         <Home />
       </Route>
-      <Route path ='/components/Form'>
-        <Form />
+      <Route path ='/components/Pizza'>
+        <Pizza />
       </Route>
-
-      
+          
     </div>
   );
 };
