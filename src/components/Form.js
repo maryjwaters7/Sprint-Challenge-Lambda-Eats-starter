@@ -1,101 +1,64 @@
 import React, { useState } from "react";
 import * as yup from 'yup';
+import axios from "axios";
 
 const formSchema = yup.object().shape({
     name: yup.string().required('Name is a required field.')
 });
 
 const Form = () => {
-    const [formState, setFormState] = useState({
+    const initialState = {
         sizes: '',
-        ored: '',
-        granch: '',
-        bbq: '',
-        salfredo: '',
         pepperoni: '',
         sausage: '',
         mushroom: '',
         pineapple: '',
-        instructions: ''
-    });
-    const [errors, setErrors] = useState ({
-        sizes: '',
-        ored: '',
-        granch: '',
-        bbq: '',
-        salfredo: '',
-        pepperoni: '',
-        sausage: '',
-        mushroom: '',
-        pineapple: '',
-        instructions: ''
-    });
-    const validateChange = e => {
-        yup
-          .reach(formSchema, e.target.name)
-          .validate(e.target.value)
-          .then(valid => {
-            setErrors({
-              ...errors,
-              [e.target.name]: ""
-            });
+        instructions: '',
+        name: ''
+    }
+    const [formState, setFormState] = useState(initialState);
+    const [pizzas, setPizzas] = useState([]);
+        
+
+    const formSubmit = e => {
+        e.preventDefault();
+        console.log(formState)
+        axios
+          .post("https://reqres.in/api/marywaters", formState)
+          .then(res => {
+            console.log(res)
+            setPizzas([...pizzas, res.data])
+            setFormState(initialState);
           })
-          .catch(err => {
-            setErrors({
-              ...errors,
-              [e.target.name]: err.errors[0]
-            });
-          });
+          .catch(err => console.log(err.response));
       };
-    const inputChange = e => {
-        e.persist();
-        const newFormData = {
-            ...formState,
-            [e.target.name]:
-            e.target.type ==='checkbox' ? e.target.checled : e.target.value
-        };
-        validateChange(e);
-        setFormState(newFormData);
+
+    const checkboxHandler = e => {
+        // e.persist();
+        
+        setFormState({...formState, [e.target.name] : e.target.type ==='checkbox' ? e.target.checked : e.target.value});
+    
+    };
+
+    const inputHandler = e => {
+        setFormState({...formState, [e.target.name] : e.target.value});
     };
   return (
-    <form>
+      <>
+    <form onSubmit ={formSubmit}>
         <label htmlFor ='sizes'>
             Choice of Size 
             <select 
             id='sizes'
             name='sizes'
-            onChange={inputChange}>
+            onChange={inputHandler}>
                 <option value='Small'>Small</option>
                 <option value='Medium'>Medium</option>
                 <option value='Large'>Large</option>
                 <option value='Extra Large'>Extra Large</option>
             </select>
         </label>
-        <div className ='sauceWrapper'>
-            <p>Choice of Sauce</p>
-            <label>
-                Original Red
-                <input 
-                type='radio'
-                name='ored'
-                />
-                Garlic Ranch
-                <input 
-                type='radio'
-                name='granch'
-                 />
-                BBQ Sauce
-                <input 
-                type ='radio' 
-                name='bbq'
-                />
-                Spinach Alfredo
-                <input 
-                type='radio' 
-                name='salfredo'
-                />
-            </label>
-        </div>
+       
         <div className = 'toppingsWrapper'>
             <p>Add Toppings</p>
             <label>
@@ -104,32 +67,33 @@ const Form = () => {
                     name='pepperoni'
                     type='checkbox'
                     checked={formState.pepperoni}
-                    onChange={inputChange} />
+                    onChange={checkboxHandler} />
                 Sausage
                 <input 
                     name='sausage'
                     type='checkbox'
                     checked={formState.sausage}
-                    onChange={inputChange} />
+                    onChange={checkboxHandler} />
                 Mushrooms
                 <input 
                     name='mushrooms'
                     type='checkbox'
                     checked={formState.mushrooms}
-                    onChange={inputChange} />
+                    onChange={checkboxHandler} />
                 Pineapple
                 <input 
                     name='pineapple'
                     type='checkbox'
                     checked={formState.pineapple}
-                    onChange={inputChange} />
+                    onChange={checkboxHandler} />
             </label>
         </div>
         <label htmlFor='instructions'>
             Special Instructions <br/>
             <textarea 
             name='instructions' 
-            value={formState.motivation}
+            value={formState.instructions}
+            onChange={inputHandler}
             />
         </label>
         <br/>
@@ -138,11 +102,17 @@ const Form = () => {
             <input
                 type="text"
                 name="name"
+                onChange={inputHandler}
             />
         </label>
         <br/>
             <button> Add to Order </button>
+        <br />
+      
     </form>
+
+    <pre>{JSON.stringify(pizzas, null, 2)}</pre>
+    </>
   );
 };
 export default Form;

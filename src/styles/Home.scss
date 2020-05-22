@@ -1,0 +1,63 @@
+.homeWrapper{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+
+    h1{
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 3rem;
+        margin: 2rem;
+        padding: 5rem 0;
+    }
+
+    .pizzaBox{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color:black;
+        width: 125px;
+        height: 50px;
+        text-align: center;
+
+        a{
+            font-size:1.6rem;
+            color:red;
+            text-decoration: none;
+            text-align: center;
+        }
+    }
+
+    .border{
+        width: 85%;
+        border-top: 2px solid black;
+        margin-top: 3rem;
+
+        h3{
+            font-size:1.6rem;
+        }
+    }
+
+    .restaurantWrapper{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:space-evenly;
+        align-items:flex-start;
+        margin-top:0.5rem;
+        width: 85%;
+
+        img{
+            width:350px;
+        }
+        
+    }
+}
+
+
+
+
+
+/*font-family: 'Poppins', sans-serif;*/
