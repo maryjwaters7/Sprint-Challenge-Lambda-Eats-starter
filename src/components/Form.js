@@ -3,7 +3,10 @@ import * as yup from 'yup';
 import axios from "axios";
 
 const formSchema = yup.object().shape({
-    name: yup.string().required('Name is a required field.')
+    name:yup.string()
+    .trim()
+    .min(2,'The username must be at least 2 characters')
+    .required('The username is a required field')
 });
 
 const Form = () => {
@@ -18,6 +21,10 @@ const Form = () => {
     }
     const [formState, setFormState] = useState(initialState);
     const [pizzas, setPizzas] = useState([]);
+
+    const [errors, setErrors] = useState({
+        name:''
+    })
         
 
     const formSubmit = e => {
@@ -33,16 +40,14 @@ const Form = () => {
           .catch(err => console.log(err.response));
       };
 
-    const checkboxHandler = e => {
-        // e.persist();
-        
-        setFormState({...formState, [e.target.name] : e.target.type ==='checkbox' ? e.target.checked : e.target.value});
-    
+    const checkboxHandler = e => {        
+        setFormState({...formState, [e.target.name] : e.target.type ==='checkbox' ? e.target.checked : e.target.value});    
     };
 
     const inputHandler = e => {
         setFormState({...formState, [e.target.name] : e.target.value});
     };
+
   return (
       <>
     <form onSubmit ={formSubmit}>
