@@ -13,8 +13,16 @@ Demonstrate your understanding of this week's concepts by answering the followin
 Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
 1. In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
+
+Allows you to add nested routes to your application so that you can change a single parameter in the URL without having to change the whole thing. Helps eliminate redundant code.
+
 2. How would you explain form validation to someone who has never programmed before?
+
+Its the code that lets the browser know what input your typing in and also what that input requires as you type it. So for instance when you go to make a new account on a website and the input box tells you your password isnt long enough, that code that the computer is running/using to make that happen is called form validation.
+
 3. In 1-2 sentences, define end to end testing.
+
+End-to-end testing is a technique used to test whether the flow of an application right from start to finish is behaving as expected. The purpose of performing end-to-end testing is to identify system dependencies and to ensure that the data integrity is maintained between various system components and systems.
 
 You are expected to be able to answer all these questions. Your responses contribute to your Sprint Challenge grade. Skipping this section **will** prevent you from passing this challenge.
 
@@ -40,7 +48,7 @@ Your MVP should include, at a minimum, the following components.
 - [x] A homepage that has a "/" route and links to your form (button, nav bar, or any other type of link is acceptable)
 - [x] A form with a "/pizza" route
 - [x] A name text input field
-- [ ] Validation for name - name must be at least 2 characters
+- [x] Validation for name - name must be at least 2 characters
 - [x] Dropdown form component for pizza size
 - [x] Checklist form component for toppings - at least 4 (hint: name each separately!)
 - [x] Text input form component for special instructions

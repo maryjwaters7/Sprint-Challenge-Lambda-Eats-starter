@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import * as yup from 'yup';
+import '../styles/Form.scss';
+import * as Yup from 'yup';
 import axios from "axios";
 
-const formSchema = yup.object().shape({
-    name:yup.string()
-    .trim()
-    .min(2,'The username must be at least 2 characters')
-    .required('The username is a required field')
-});
+
 
 const Form = () => {
     const initialState = {
         sizes: '',
-        pepperoni: '',
-        sausage: '',
-        mushroom: '',
-        pineapple: '',
+        pepperoni: false,
+        sausage: false,
+        mushroom: false,
+        pineapple: false,
         instructions: '',
         name: ''
     }
@@ -23,9 +19,15 @@ const Form = () => {
     const [pizzas, setPizzas] = useState([]);
 
     const [errors, setErrors] = useState({
-        name:''
+        name: ''
     })
-        
+       
+    const formSchema = Yup.object().shape({
+        name: Yup
+        .string()
+        .min(2,'The username must be at least 2 characters')
+        .required('The username is a required field')
+    });
 
     const formSubmit = e => {
         e.preventDefault();
@@ -48,6 +50,28 @@ const Form = () => {
         setFormState({...formState, [e.target.name] : e.target.value});
     };
 
+    const validInputHandler = e =>{
+        e.persist();
+        Yup.reach(formSchema, e.target.name)
+        .validate(e.target.value)
+        .then( valid => {
+            setErrors({
+                ...errors,
+                [e.target.name]: ''
+            });
+        })
+        .catch(err => {
+            setErrors({
+                ...errors,
+                [e.target.name]: err.errors[0]
+            });
+        });
+        setFormState({
+            ...formState, 
+            [e.target.name]: e.target.value
+        });
+    };
+
   return (
       <>
     <form onSubmit ={formSubmit}>
@@ -57,6 +81,7 @@ const Form = () => {
             id='sizes'
             name='sizes'
             onChange={inputHandler}>
+                <option value='Size'>Choose Size</option>
                 <option value='Small'>Small</option>
                 <option value='Medium'>Medium</option>
                 <option value='Large'>Large</option>
@@ -66,7 +91,7 @@ const Form = () => {
        
         <div className = 'toppingsWrapper'>
             <p>Add Toppings</p>
-            <label>
+            <label className='toppings'>
                 Pepperoni
                 <input 
                     name='pepperoni'
@@ -107,9 +132,10 @@ const Form = () => {
             <input
                 type="text"
                 name="name"
-                onChange={inputHandler}
+                onChange={validInputHandler}
             />
         </label>
+        {errors.name.length > 0 ? (<p className='error'>{errors.name}</p>) : null}
         <br/>
             <button> Add to Order </button>
         <br />
